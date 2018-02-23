@@ -1,0 +1,13 @@
+<h1>Update {{creature.name}}:</h1>
+<form id="update-creature" action="/creatures" method="post">
+    Name: <input type="text" name="name" value="{{creature.name}}"><br>
+    Health: <input type="number" name="health" value="{{creature.health}}"><br>
+    God: <select name="god" id="god-selector"> 
+        {{#each gods}}
+        <option value="{{god.id}}">{{name}}</option>
+        {{/each}}
+    </select><br>
+    Alignment: <input type="text" name="alignment" value="{{creature.alignment}}"><br>
+</form>
+<button onclick="updatePerson({{creature.creature_id}})">Update</button>
+<script defer>selectGod({{creature.god_id}});</script>

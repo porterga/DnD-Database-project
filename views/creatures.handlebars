@@ -1,0 +1,36 @@
+<h1>Current creatures:</h1>
+<h1><a href = "/"> Back Home</a></h1>
+{{#each foo}}
+{{this}}
+{{/each}}
+<table>
+    <thead> 
+        <th>Name</th> 
+        <th>Health</th> 
+        <th>Alignment</th>
+        <th>God</th>  
+    </thead> 
+    <tbody> 
+        {{#each creatures}} 
+        <tr> 
+            <td>{{name}}</td> 
+            <td>{{health}}</td> 
+            <td>{{alignment}}</td> 
+            <td>{{god}}</td>
+            <td><button onclick="deleteCreature({{creature_id}})">Delete</button></td>
+            <td><a href="/creatures/{{creature_id}}">Update</a></td>
+        </tr> 
+        {{/each}} 
+    </tbody> 
+    <form id="addcreature" action="/creatures" method="post">
+    Name: <input type="text" name="name"><br>
+    Health: <input type="number" name="health"><br>
+    God: <select name="god"> 
+        {{#each gods}}
+        <option value="{{god_id}}">{{name}}</option>
+        {{/each}}
+    </select><br>
+    Alignment: <input type="text" name="alignment"><br>
+    <input type="submit" value="Submit">
+    </form>
+</table> 

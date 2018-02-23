@@ -17,7 +17,7 @@ app.set('view engine', 'handlebars');
 app.set('port', process.argv[2]);
 app.set('mysql', mysql);
 
-app.use('/people', require('./people.js'));
+app.use('/creatures', require('./creatures.js'));
 app.use('/', function(req, res) {
   res.render('./index.handlebars');
 }
