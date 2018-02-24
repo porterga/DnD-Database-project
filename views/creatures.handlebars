@@ -16,7 +16,7 @@
             <td>{{name}}</td> 
             <td>{{health}}</td> 
             <td>{{alignment}}</td> 
-            <td>{{god_id}}</td>
+            <td>{{god}}</td>
             <td><button onclick="deleteCreature({{creature_id}})">Delete</button></td>
             <td><a href="/creatures/{{creature_id}}">Update</a></td>
         </tr> 
@@ -25,7 +25,7 @@
     <form id="addcreature" action="/creatures" method="post">
     Name: <input type="text" name="name"><br>
     Health: <input type="number" name="health"><br>
-    God: <select name="god"> 
+    God: <select name="god_id"> 
         {{#each gods}}
         <option value="{{god_id}}">{{name}}</option>
         {{/each}}

@@ -3,7 +3,7 @@ module.exports = function(){
     var router = express.Router();
 
     function getGods(res, mysql, context, complete){
-        mysql.pool.query("SELECT god_id, name FROM gods", function(error, results, fields){
+        mysql.pool.query("SELECT gods.god_id, gods.name FROM gods", function(error, results, fields){
             if(error){
                 res.write(JSON.stringify(error));
                 res.end();
@@ -14,7 +14,7 @@ module.exports = function(){
     }
 
     function getCreatures(res, mysql, context, complete){
-        mysql.pool.query("SELECT creatures.creature_id, name, health, alignment FROM creatures", function(error, results, fields){
+        mysql.pool.query("SELECT creatures.creature_id, creatures.name, creatures.health, creatures.alignment, gods.name as god FROM creatures LEFT JOIN gods ON creatures.god_id = gods.god_id", function(error, results, fields){
             if(error){
                 res.write(JSON.stringify(error));
                 res.end();
