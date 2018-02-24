@@ -3,7 +3,7 @@ module.exports = function(){
     var router = express.Router();
 
     function getGods(res, mysql, context, complete){
-        mysql.pool.query("SELECT gods.god_id, gods.name FROM gods", function(error, results, fields){
+        mysql.pool.query("SELECT god_id, name FROM gods", function(error, results, fields){
             if(error){
                 res.write(JSON.stringify(error));
                 res.end();
@@ -14,7 +14,7 @@ module.exports = function(){
     }
 
     function getCreatures(res, mysql, context, complete){
-        mysql.pool.query("SELECT creatures.creature_id, creatures.name, creatures.health, gods.name AS god, creatures.age FROM creatures INNER JOIN gods ON god = gods.god_id", function(error, results, fields){
+        mysql.pool.query("SELECT creatures.creature_id, name, health, alignment FROM creatures", function(error, results, fields){
             if(error){
                 res.write(JSON.stringify(error));
                 res.end();
@@ -25,7 +25,7 @@ module.exports = function(){
     }
 
     function getCreature(res, mysql, context, id, complete){
-        var sql = "SELECT creature_id, name, health, alignment, god_id FROM creatures WHERE creature_id = ?";
+        var sql = "SELECT creatures.creature_id, creatures.name, creatures.health, creatures.alignment, creatures.god_id FROM creatures WHERE creatures.creature_id = ?";
         var inserts = [id];
         mysql.pool.query(sql, inserts, function(error, results, fields){
             if(error){
@@ -44,7 +44,7 @@ module.exports = function(){
         var context = {};
         context.jsscripts = ["deletecreature.js"];
         var mysql = req.app.get('mysql');
-        getCreature(res, mysql, context, complete);
+        getCreatures(res, mysql, context, complete);
         getGods(res, mysql, context, complete);
         function complete(){
             callbackCount++;
