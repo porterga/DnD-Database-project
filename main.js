@@ -4,6 +4,7 @@
 */
 
 var express = require('express');
+var validator = require('express-validator');
 var mysql = require('./dbcon.js');
 var bodyParser = require('body-parser');
 
@@ -16,7 +17,12 @@ app.use('/static', express.static('public'));
 app.set('view engine', 'handlebars');
 app.set('port', process.argv[2]);
 app.set('mysql', mysql);
-
+app.use(validator());
+/*
+app.use('/gods', function(req, res){
+  res.render('./gods.handlebars');
+});*/
+app.use('/gods', require('./gods.js'));
 app.use('/creatures', require('./creatures.js'));
 app.use('/', function(req, res) {
   res.render('./index.handlebars');

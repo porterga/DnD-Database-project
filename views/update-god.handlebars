@@ -1,0 +1,8 @@
+<h1>Update {{god.name}}:</h1>
+<form id="update-god" action="/gods" method="post">
+    Name: <input type="text" name="name" value="{{god.name}}"><br>
+    Origin: <input type="text" name="origin" value="{{god.origin}}"><br>
+    God Of: <input type="text" name="god_of" value="{{god.god_of}}"><br>
+</form>
+<button onclick="updateGod({{god.god_id}})">Update</button>
+<!--<script defer>selectGod({{creature.god_id}});</script>-->
