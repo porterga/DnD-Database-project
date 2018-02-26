@@ -1,0 +1,9 @@
+<h1>Update {{spell.name}}:</h1>
+<form id="update-spell" action="/spells" method="post">
+    Name: <input type="text" name="name" value="{{spell.name}}"><br>
+    Level: <input type="number" name="level" value="{{spell.level}}"><br>
+    Description: <input type="text" name="description" value="{{spell.description}}"><br>
+    Components: <input type="text" name="components" value="{{spell.components}}"><br>
+</form>
+<button onclick="updateSpell({{spell.spell_id}})">Update</button>
+<!--<script defer>selectGod({{creature.god_id}});</script>-->

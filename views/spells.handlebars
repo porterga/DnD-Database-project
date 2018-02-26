@@ -1,0 +1,32 @@
+<h1>Current spells:</h1>
+<h1><a href = "/"> Back Home</a></h1>
+{{#each foo}}
+{{this}}
+{{/each}}
+<table>
+    <thead> 
+        <th>Name</th> 
+        <th>Level</th> 
+        <th>Description</th>
+        <th>Components</th> 
+    </thead> 
+    <tbody> 
+        {{#each spells}} 
+        <tr> 
+            <td>{{name}}</td> 
+            <td>{{level}}</td> 
+            <td>{{description}}</td>
+            <td>{{components}}</td> 
+            <td><button onclick="deleteSpell({{spell_id}})">Delete</button></td>
+            <td><a href="/spells/{{spell_id}}">Update</a></td>
+        </tr> 
+        {{/each}} 
+    </tbody> 
+    <form id="addspell" action="/spells" method="post">
+    Name: <input type="text" name="name"><br>
+    Level: <input type="number" name="level"><br>
+    Description: <input type="text" name="description"><br>
+    Components: <input type="text" name="components"><br>
+    <input type="submit" value="Submit">
+    </form>
+</table> 

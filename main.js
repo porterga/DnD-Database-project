@@ -18,10 +18,8 @@ app.set('view engine', 'handlebars');
 app.set('port', process.argv[2]);
 app.set('mysql', mysql);
 app.use(validator());
-/*
-app.use('/gods', function(req, res){
-  res.render('./gods.handlebars');
-});*/
+
+app.use('/spells', require('./spells.js'));
 app.use('/gods', require('./gods.js'));
 app.use('/creatures', require('./creatures.js'));
 app.use('/', function(req, res) {
