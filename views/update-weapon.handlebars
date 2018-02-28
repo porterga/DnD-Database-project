@@ -1,0 +1,13 @@
+<h1>Update {{weapon.name}}:</h1>
+<form id="update-weapon" action="/weapons" method="post">
+    Name: <input type="text" name="name" value="{{weapon.name}}"><br>
+    Damage: <input type="text" name="damage" value="{{weapon.damage}}"><br>
+    Properties: <input type="text" name="properties" value="{{weapon.properties}}"><br>   
+    Owner: <select name="creature_id" id="creature-selector"> 
+        {{#each creatures}}
+        <option value="{{creature_id}}">{{name}}</option>
+        {{/each}}
+    </select><br>
+</form>
+<button onclick="updateWeapon({{weapon.weapon_id}})">Update</button>
+<script defer>selectCreature({{weapon.creature_id}});</script>

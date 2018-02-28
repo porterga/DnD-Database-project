@@ -1,0 +1,36 @@
+<h1>Current weapons:</h1>
+<h1><a href = "/"> Back Home</a></h1>
+{{#each foo}}
+{{this}}
+{{/each}}
+<table>
+    <thead> 
+        <th>Name</th> 
+        <th>Damage</th> 
+        <th>Properties</th>
+        <th>Owner</th>  
+    </thead> 
+    <tbody> 
+        {{#each weapons}} 
+        <tr> 
+            <td>{{name}}</td> 
+            <td>{{damage}}</td>
+            <td>{{properties}}</td> 
+            <td>{{owner}}</td> 
+            <td><button onclick="deleteWeapon({{weapon_id}})">Delete</button></td>
+            <td><a href="/weapons/{{weapon_id}}">Update</a></td>
+        </tr> 
+        {{/each}} 
+    </tbody> 
+    <form id="addweapon" action="/weapons" method="post">
+    Name: <input type="text" name="name"><br>
+    Damage: <input type="text" name="damage"><br>
+    Properties: <input type="text" name="properties"><br>
+    Owner: <select name="creature_id"> 
+        {{#each creatures}}
+        <option value="{{creature_id}}">{{name}}</option>
+        {{/each}}
+    </select><br>
+    <input type="submit" value="Submit">
+    </form>
+</table> 

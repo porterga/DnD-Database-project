@@ -14,7 +14,7 @@ module.exports = function(){
     }
 
     function getCreatures(res, mysql, context, complete){
-        mysql.pool.query("SELECT creatures.creature_id, creatures.name, creatures.health, creatures.alignment, gods.name as god FROM creatures LEFT JOIN gods ON creatures.god_id = gods.god_id", function(error, results, fields){
+        mysql.pool.query("SELECT creatures.creature_id, creatures.name, creatures.health, creatures.alignment, gods.name as god FROM creatures LEFT JOIN gods ON creatures.god_id = gods.god_id WHERE creatures.name <> 'No Owner'", function(error, results, fields){
             if(error){
                 res.write(JSON.stringify(error));
                 res.end();
