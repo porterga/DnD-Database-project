@@ -1,0 +1,34 @@
+<h1>Current Favor:</h1>
+<h1><a href = "/"> Back Home</a></h1>
+{{#each foo}}
+{{this}}
+{{/each}}
+<table>
+    <thead> 
+        <th>Creature</th> 
+        <th>Favors</th>   
+    </thead> 
+    <tbody> 
+        {{#each favors}} 
+        <tr> 
+            <td>{{creature_id1}}</td> 
+            <td>{{creature_id2}}</td> 
+            <td><button onclick="deleteFavor({{creature_id1}}, {{creature_id2}})">Delete</button></td>
+            <td><a href="/favors/{{creature_id}}/{{creature_id2}}">Update</a></td>
+        </tr> 
+        {{/each}} 
+    </tbody> 
+    <form id="addfavor" action="/favors" method="post">
+    Creature: <select name="creature_id1"> 
+        {{#each creatures}}
+        <option value="{{creature_id}}">{{name}}</option>
+        {{/each}}
+    </select><br>
+    Favors: <select name="creature_id2"> 
+        {{#each creatures}}
+        <option value="{{creature_id}}">{{name}}</option>
+        {{/each}}
+    </select><br>
+    <input type="submit" value="Submit">
+    </form>
+</table> 

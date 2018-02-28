@@ -1,0 +1,15 @@
+<h1>Update</h1>
+<form id="update-favor" action="/favors" method="post">
+    Creature: <select name="creature_id" id="creature-selector"> 
+        {{#each creatures}}
+        <option value="{{creature_id}}">{{name}}</option>
+        {{/each}}
+    </select><br>
+    Favors: <select name="creature_id" id="creature-selector"> 
+        {{#each creatures}}
+        <option value="{{creature_id}}">{{name}}</option>
+        {{/each}}
+    </select><br>
+</form>
+<button onclick="updateFavor({{favor.creature_id1}}, {{favor.creature_id2}})">Update</button>
+<script defer>selectCreature({{favor.creature_id}});</script>
