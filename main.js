@@ -19,6 +19,7 @@ app.set('port', process.argv[2]);
 app.set('mysql', mysql);
 app.use(validator());
 
+app.use('/favor', require('./favor.js'));
 app.use('/weapons', require('./weapons.js'));
 app.use('/spells', require('./spells.js'));
 app.use('/gods', require('./gods.js'));
