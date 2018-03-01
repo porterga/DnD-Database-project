@@ -1,4 +1,4 @@
-<h1>Current Favor:</h1>
+<h1>Which creatures favor each other:</h1>
 <h1><a href = "/"> Back Home</a></h1>
 {{#each foo}}
 {{this}}
@@ -9,12 +9,12 @@
         <th>Favors</th>   
     </thead> 
     <tbody> 
-        {{#each favors}} 
+        {{#each favors}}      
         <tr> 
             <td>{{creature_id1}}</td> 
             <td>{{creature_id2}}</td> 
-            <td><button onclick="deleteFavor({{creature_id1}}, {{creature_id2}})">Delete</button></td>
-            <td><a href="/favors/{{creature_id}}/{{creature_id2}}">Update</a></td>
+            <td><button onclick="deleteFavor({{favor1}}, {{favor2}})">Delete</button></td>
+            <td><a href="/favors/{{favor1}}/{{favor2}}">Update</a></td>
         </tr> 
         {{/each}} 
     </tbody> 
