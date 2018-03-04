@@ -2,17 +2,17 @@ module.exports = function(){
     var express = require('express');
     var router = express.Router();
 
-    function getFavors(res, mysql, context, complete){
-        mysql.pool.query("SELECT creature1.name AS creature_id1, creature2.name AS creature_id2, favor.creature_id1 AS favor1, favor.creature_id2 AS favor2 FROM favor INNER JOIN creatures as creature1 ON creature1.creature_id=favor.creature_id1 INNER JOIN creatures AS creature2 ON creature2.creature_id = favor.creature_id2", function(error, results, fields){
+    function getCreature_Spells(res, mysql, context, complete){
+        mysql.pool.query("SELECT creature.name AS creature, spell.name as spell, creature_spells.creature_id as id_c, creature_spells.spell_id as id_s FROM creature_spells INNER JOIN creatures AS creature ON creature.creature_id = creature_spells.creature_id INNER JOIN spells AS spell ON spell.spell_id = creature_spells.spell_id", function(error, results, fields){
             if(error){
                 res.write(JSON.stringify(error));
                 res.end();
             }
-            context.favors = results;
+            context.creature_spells = results;
             complete();
         });
     }
-
+    
     function getCreatures(res, mysql, context, complete){
         mysql.pool.query("SELECT creatures.creature_id, creatures.name FROM creatures WHERE creatures.name <> 'No Owner'", function(error, results, fields){
             if(error){
@@ -24,15 +24,26 @@ module.exports = function(){
         });
     }
 
-    function getFavor(res, mysql, context, id, id2, complete){
-        var sql = "SELECT favor.creature_id1, favor.creature_id2 FROM favor WHERE favor.creature_id1 = ? AND favor.creature_id2 = ?";
+    function getSpells(res, mysql, context, complete){
+        mysql.pool.query("SELECT spells.spell_id, spells.name FROM spells", function(error, results, fields){
+            if(error){
+                res.write(JSON.stringify(error));
+                res.end();
+            }
+            context.spells = results;
+            complete();
+        });
+    }
+
+    function getCreature_Spell(res, mysql, context, id, id2, complete){
+        var sql = "SELECT creature_spells.creature_id as id_c, creature_spells.spell_id as id_s FROM creature_spells WHERE creature_spells.creature_id = ? AND creature_spells.spell_id = ?";
         var inserts = [id, id2];
         mysql.pool.query(sql, inserts, function(error, results, fields){
             if(error){
                 res.write(JSON.stringify(error));
                 res.end();
             }
-            context.favor = results[0];
+            context.creature_spell = results[0];
             complete();
         });
     }
@@ -42,15 +53,15 @@ module.exports = function(){
     router.get('/', function(req, res){
         var callbackCount = 0;
         var context = {};
-        context.jsscripts = ["deletefavor.js"];
+        context.jsscripts = ["deletecreature_spell.js"];
         var mysql = req.app.get('mysql');
-        //getFavors_id(res, mysql, context, complete);
+        getSpells(res, mysql, context, complete);
         getCreatures(res, mysql, context, complete);
-        getFavors(res, mysql, context, complete);
+        getCreature_Spells(res, mysql, context, complete);
         function complete(){
             callbackCount++;
-            if(callbackCount >= 2){
-                res.render('favors', context);
+            if(callbackCount >= 3){
+                res.render('creature_spells', context);
             }
 
         }
@@ -58,17 +69,19 @@ module.exports = function(){
 
     /* Display one person for the specific purpose of updating people */
 
-    router.get('/:favor1/:favor2', function(req, res){
+    router.get('/:id_c/:id_s', function(req, res){
+        console.log("update page");
         callbackCount = 0;
         var context = {};
-        context.jsscripts = ["selectedcreature.js", "updatefavor.js", "selectedcreature2.js"];
+        context.jsscripts = ["selectedcreature.js", "updatecreature_spell.js", "selectedspell.js"];
         var mysql = req.app.get('mysql');
-        getFavor(res, mysql, context, req.params.favor1, req.params.favor2, complete);
+        getCreature_Spell(res, mysql, context, req.params.id_c, req.params.id_s, complete);
+        getSpells(res, mysql, context, complete);
         getCreatures(res, mysql, context, complete);
         function complete(){
             callbackCount++;
-            if(callbackCount >= 2){
-                res.render('update-favor', context);
+            if(callbackCount >= 3){
+                res.render('update-creature_spell', context);
             }
 
         }
@@ -78,24 +91,25 @@ module.exports = function(){
 
     router.post('/', function(req, res){
         var mysql = req.app.get('mysql');
-        var sql = "INSERT INTO favor (creature_id1, creature_id2) VALUES (?,?)";
-        var inserts = [req.body.creature_id1, req.body.creature_id2];
+        var sql = "INSERT INTO creature_spells (creature_id, spell_id) VALUES (?,?)";
+        var inserts = [req.body.creature_id, req.body.spell_id];
         sql = mysql.pool.query(sql,inserts,function(error, results, fields){
             if(error){
                 res.write(JSON.stringify(error));
                 res.end();
             }else{
-                res.redirect('/favors');
+                res.redirect('/creature_spells');
             }
         });
     });
 
     /* The URI that update data is sent to in order to update a person */
 
-    router.put('/:favor1/:favor2', function(req, res){
+    router.put('/:id_c/:id_s', function(req, res){
+        console.log(req.params.id_c+","+req.params.id_s+","+req.body.creature_id+","+req.body.name);
         var mysql = req.app.get('mysql');
-        var sql = "UPDATE favor SET creature_id1=?, creature_id2=? WHERE creature_id1=? AND creature_id2=?";
-        var inserts = [req.body.creature_id1, req.body.creature_id2, req.params.favor1, req.params.favor2];
+        var sql = "UPDATE creature_spells SET creature_id=?, spell_id=? WHERE creature_id=? AND spell_id=?";
+        var inserts = [req.body.creature_id, req.body.spell_id, req.params.id_c, req.params.id_s];
         sql = mysql.pool.query(sql,inserts,function(error, results, fields){
             if(error){
                 res.write(JSON.stringify(error));
@@ -109,10 +123,10 @@ module.exports = function(){
 
     /* Route to delete a person, simply returns a 202 upon success. Ajax will handle this. */
 
-    router.delete('/:favor1/:favor2', function(req, res){
+    router.delete('/:id_c/:id_s', function(req, res){
         var mysql = req.app.get('mysql');
-        var sql = "DELETE FROM favor WHERE creature_id1 = ? AND creature_id2 = ?";
-        var inserts = [req.params.favor1, req.params.favor2];
+        var sql = "DELETE FROM creature_spells WHERE creature_id = ? AND spell_id = ?";
+        var inserts = [req.params.id_c, req.params.id_s];
         sql = mysql.pool.query(sql, inserts, function(error, results, fields){
             if(error){
                 res.write(JSON.stringify(error));

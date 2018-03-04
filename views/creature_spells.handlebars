@@ -1,0 +1,34 @@
+<h1>What spells each creature knows:</h1>
+<h1><a href = "/"> Back Home</a></h1>
+{{#each foo}}
+{{this}}
+{{/each}}
+<table>
+    <thead> 
+        <th>Creature</th> 
+        <th>Spell</th>   
+    </thead> 
+    <tbody> 
+        {{#each creature_spells}}      
+        <tr> 
+            <td>{{creature}}</td> 
+            <td>{{spell}}</td> 
+            <td><button onclick="deleteCreature_spell({{id_c}}, {{id_s}})">Delete</button></td>
+            <td><a href="/creature_spells/{{id_c}}/{{id_s}}">Update</a></td>
+        </tr> 
+        {{/each}} 
+    </tbody> 
+    <form id="addcreature_spell" action="/creature_spells" method="post">
+    Creature: <select name="creature_id"> 
+        {{#each creatures}}
+        <option value="{{creature_id}}">{{name}}</option>
+        {{/each}}
+    </select><br>
+    Spell: <select name="spell_id"> 
+        {{#each spells}}
+        <option value="{{spell_id}}">{{name}}</option>
+        {{/each}}
+    </select><br>
+    <input type="submit" value="Submit">
+    </form>
+</table> 

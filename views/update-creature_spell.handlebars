@@ -1,0 +1,17 @@
+<h1>Update</h1>
+<form id="update-creature_spell" action="/creature_spells" method="post">
+    Creature: <select name="creature_id" id="creature-selector"> 
+        {{#each creatures}}
+        <option value="{{creature_id}}">{{name}}</option>
+        {{/each}}
+    </select><br>
+    Spell: <select name="spell_id" id="spell-selector"> 
+        {{#each spells}}
+        <option value="{{spell_id}}">{{name}}</option>
+        {{/each}}
+    </select><br>
+</form>
+<button onclick="updateCreature_spell({{creature_spell.id_c}}, {{creature_spell.id_s}})">Update</button>
+<script defer>selectCreature({{creature_spell.id_c}})
+    selectSpell({{creature_spell.id_s}});</script>
+
