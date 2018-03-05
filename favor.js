@@ -44,7 +44,6 @@ module.exports = function(){
         var context = {};
         context.jsscripts = ["deletefavor.js"];
         var mysql = req.app.get('mysql');
-        //getFavors_id(res, mysql, context, complete);
         getCreatures(res, mysql, context, complete);
         getFavors(res, mysql, context, complete);
         function complete(){

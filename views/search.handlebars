@@ -1,0 +1,15 @@
+<h1>Filter Creatures by Alignment:</h1>
+<h2><a href = "/"> Back Home</a></h2>
+{{#each foo}}
+{{this}}
+{{/each}}
+<table> 
+    <form id="selectfilter" action="/search" method="post">
+    Alignment: <select name="align"> 
+        {{#each aligns}}
+        <option value="{{alignment}}">{{alignment}}</option>
+        {{/each}}
+    </select><br>
+    <input type="submit" value="Filter">
+    </form>
+</table> 

@@ -70,7 +70,6 @@ module.exports = function(){
     /* Display one person for the specific purpose of updating people */
 
     router.get('/:id_c/:id_s', function(req, res){
-        console.log("update page");
         callbackCount = 0;
         var context = {};
         context.jsscripts = ["selectedcreature.js", "updatecreature_spell.js", "selectedspell.js"];
@@ -106,7 +105,6 @@ module.exports = function(){
     /* The URI that update data is sent to in order to update a person */
 
     router.put('/:id_c/:id_s', function(req, res){
-        console.log(req.params.id_c+","+req.params.id_s+","+req.body.creature_id+","+req.body.name);
         var mysql = req.app.get('mysql');
         var sql = "UPDATE creature_spells SET creature_id=?, spell_id=? WHERE creature_id=? AND spell_id=?";
         var inserts = [req.body.creature_id, req.body.spell_id, req.params.id_c, req.params.id_s];

@@ -1,0 +1,20 @@
+<h2><a href = "/"> Back Home</a></h2>
+{{#each foo}}
+{{this}}
+{{/each}}
+<table>
+    <thead> 
+        <th>Name</th> 
+        <th>Health</th>
+        <th>God</th>
+    </thead> 
+    <tbody> 
+        {{#each creatures}} 
+        <tr> 
+            <td>{{name}}</td> 
+            <td>{{health}}</td>
+            <td>{{god}}</td>
+        </tr> 
+        {{/each}} 
+    </tbody>
+</table>
